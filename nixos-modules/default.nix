@@ -4,7 +4,7 @@
   nvfc = import ./nvf-configuration.nix;
 
   overlayNixpkgsForThisInstance =
-    { pkgs, ... };
+    { pkgs, ... }:
     {
       nixpkgs = {
         inherit overlays;
