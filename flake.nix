@@ -6,7 +6,7 @@
     nvf.url = "github:NotAShelf/nvf";
   };
 
-  outputs = { self, nixpkgs, nvf, ... }:
+  outputs = { self, nixpkgs, nvf, nix, ... }:
     let
       system = "x86_64-linux";
       
