@@ -8,17 +8,28 @@
 
   outputs = { self, nixpkgs, nvf, nix, ... }:
     let
-      system = "x86_64-linux";
+      systems = [ "x86_64-linux" ];
       
-      overlayList = [ self.overlays.default ];
+      overlaysList = [ self.overlays.default ];
+
+      forEachSystem = nixpkgs.lib.genAttrs systems;
+
+      pkgsBySystem = forEachSystem (
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = overlaysList;
+        }
+      );
     in
     rec {
       overlays.default = final: prev: { nvfc = final.callPackage ./nvf-configuration.nix { }; };
       
-      packages.${system}.default =
-      (nvf.lib.neovimConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-	modules = [ ./nvf-configuration.nix ];
-      }).neovim;
+      packages = forEachSystem (system: {
+        nvfc = pkgsBySystem.${system}.nvfc;
+        default = pkgsBySystem.${system}.nvcf;
+      });
+
+      nixosModules = import ./nixos-modules { overlays = overlaysList; };
   };
 }
