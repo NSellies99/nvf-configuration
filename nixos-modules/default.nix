@@ -8,6 +8,6 @@
     {
       nixpkgs = {
         inherit overlays;
-      }
-    }
+      };
+    };
 }
