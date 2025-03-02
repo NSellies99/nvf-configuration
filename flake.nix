@@ -23,7 +23,7 @@
       );
     in
     rec {
-      overlays.default = final: prev: { nvfc = final.callPackage ./nvf-configuration.nix { }; };
+      overlays.default = final: prev: { nvfc = final.callPackage ./nixos-modules/nvf-configuration.nix { }; };
       
       packages = forEachSystem (system: {
         nvfc = pkgsBySystem.${system}.nvfc;
