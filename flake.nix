@@ -27,9 +27,13 @@
       
       packages = forEachSystem (system: {
         nvfc = pkgsBySystem.${system}.nvfc;
-        default = pkgsBySystem.${system}.nvcf;
+        default = pkgsBySystem.${system}.nvfc;
       });
 
       nixosModules = import ./nixos-modules { overlays = overlaysList; };
+
+      modules = [
+        nvf.nixosModules.default
+      ];
   };
 }
